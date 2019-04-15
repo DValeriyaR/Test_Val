@@ -1,0 +1,63 @@
+import json
+import random
+import re
+import itertools
+
+# Данные
+g = {"Country": ["Russia"], "Town": ["Tomsk"], "Street": ["Lunacharskogo", "Arbeli", "Lenina"]}
+with open("Final.txt", "w") as gr:
+    grt=json.dumps(g)
+    gr.write(grt)
+f = open("Final.txt", "tr")
+r = f.read()
+f.close()
+r = json.loads(r)
+
+# Функция проверки
+k=[]
+def proverka(k):
+    for i in k:
+        if not re.match('\w+', i):
+            break # exception
+    return k
+
+# Проверка данных
+# j = proverka(Country)
+# g = proverka(Town)
+# w = proverka(Street)
+
+# Функция-генератор
+# @decorator(55)
+
+
+def data(c, t, s):
+    d = proverka(s)
+    while d:
+        o = random.choice(c)
+        p = random.choice(t)
+        z = random.choice(s)
+        h = random.randint(1, 100)
+        yield o, p, z, h
+
+# read from file Final.txt
+# parse json string to object
+# call data with argumetns from json object
+
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        if "Test" in itertools.chain.from_iterable([args, kwargs.values()]):
+            print("Пытались вызвать функцию")
+            return
+        return func(*args, **kwargs)
+    return wrapper
+
+d = data(r['Country'], r['Town'], r['Street'])
+for i in d:
+    print(i)
+
+
+# decorator 
+# exception
+# квартира
+# корпус (может быть, а может и не быть)
+# docstrings + PEP8
